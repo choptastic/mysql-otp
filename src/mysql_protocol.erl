@@ -835,10 +835,10 @@ encode_bitstring(Bitstring) ->
 
 decode_decimal(Bin, _P, 0) ->
     binary_to_integer(Bin);
-decode_decimal(Bin, P, S) when P =< 15, S > 0 ->
-    binary_to_float(Bin);
-decode_decimal(Bin, P, S) when P >= 16, S > 0 ->
-    Bin.
+decode_decimal(Bin, P, S) -> %when P =< 15, S > 0 ->
+    binary_to_float(Bin).
+%decode_decimal(Bin, P, S) when P >= 16, S > 0 ->
+%    Bin.
 
 %% -- Protocol basics: packets --
 
