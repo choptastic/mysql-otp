@@ -702,6 +702,9 @@ decode_binary_row_acc([ColDef | ColDefs], <<0:1, NullBitMap/bitstring>>, Data,
     {Term, Rest} = decode_binary(ColDef, Data),
     decode_binary_row_acc(ColDefs, NullBitMap, Rest, [Term | Acc]);
 decode_binary_row_acc([], _, <<>>, Acc) ->
+    lists:reverse(Acc);
+%% This seemed to fix the crash when Coldefs was [], and NullBitMap was <<>>, but Data still had some data. Feels like a hack, but it fixed it, and I don't know enough about the mysql protocol to properly address it.
+decode_binary_row_acc([], _, _, Acc) ->
     lists:reverse(Acc).
 
 %% @doc Decodes a null bitmap as stored by MySQL and returns it in a strait
